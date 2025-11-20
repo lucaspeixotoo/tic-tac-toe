@@ -27,7 +27,7 @@ int main()
   char tabela[LINHAS][COLUNAS];
   char jogador = JOGADOR_X;
   char ganhador = EMPATE;
-  char escolha;
+  char escolha = 'S';
 
   // linhas e colunas
   for (l = 0; l < LINHAS; l++)
@@ -38,7 +38,7 @@ int main()
 
   printf("\nO jogo começou!\n");
 
-  while (1)
+  while (escolha == 'S')
   {
     // Imprimir a tabela
     printf("\n");
@@ -186,14 +186,17 @@ int main()
   if (ganhador != EMPATE)
   {
     printf("\n-----------------------------------------------\n");
-    printf("O jogo terminou! O vencedor é o Jogador %c!", ganhador);
+    printf("---O jogo terminou! O vencedor é o Jogador %c!---", ganhador);
+    printf("\n---------Deseja jogar novamente? (S/N)---------");
     printf("\n-----------------------------------------------\n");
+    //scanf("%c", &escolha);
   }
   else
   {
     printf("\n-----------------------------------------------\n");
-    printf("O jogo empatou! Deseja jogar novamente?");
-    printf("\n-----------------------------------------------\n");
+    printf("O jogo empatou! Deseja jogar novamente? (S/N)");
+    printf("\n-----------------------------------------------\n\n");
+    //scanf("%c", &escolha);
   }
 
   // Imprimir tabela após o fim do jogo
@@ -203,8 +206,7 @@ int main()
     {
       printf("%c ", tabela[l][c]);
     }
-    printf("\n\n");
+    printf("\n");
   }
-
   return 0;
 }
