@@ -29,6 +29,7 @@ int main()
   char ganhador = EMPATE;
   char escolha;
 
+  // Reiniciar variáveis no reinicio do jogo
   do
   {
     contador = 0;
@@ -40,13 +41,6 @@ int main()
       for (c = 0; c < COLUNAS; c++)
         tabela[l][c] = VAZIO;
     }
-
-    // linhas e colunas
-    /*for (l = 0; l < LINHAS; l++)
-    {
-      for (c = 0; c < COLUNAS; c++)
-        tabela[l][c] = VAZIO;
-    }*/
 
     printf("\nO jogo começou!\n");
 
@@ -199,16 +193,13 @@ int main()
     {
       printf("\n-----------------------------------------------\n");
       printf("---O jogo terminou! O vencedor é o Jogador %c!---", ganhador);
-      printf("\n---------Deseja jogar novamente? (S/N)---------");
       printf("\n-----------------------------------------------\n");
-      // scanf("%c", &escolha);
     }
     else
     {
       printf("\n-----------------------------------------------\n");
       printf("--------------- O jogo empatou! ----------------");
       printf("\n-----------------------------------------------\n\n");
-      // scanf("%c", &escolha);
     }
 
     // Imprimir tabela após o fim do jogo
@@ -220,6 +211,8 @@ int main()
       }
       printf("\n");
     }
+
+    // Opção de reinicio por escolha do usuário
     do
     {
       printf("Você deseja jogar novamente? (S/N)\n");
@@ -231,6 +224,8 @@ int main()
     } 
     while (escolha != 'S' && escolha != 's' && escolha != 'N' && escolha != 'n');
   } while (escolha == 'S' || escolha == 's');
+  
+  // Mensagem final.
   if (escolha == 'N' || escolha == 'n')
   {
     printf("\nObrigado! Bom jogo");
