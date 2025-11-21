@@ -57,8 +57,14 @@ int main()
         printf("\n\n");
       }
 
+      // Verificar se o usuário digitou alguma letra.
       printf("\nÉ a vez do jogador %c, digite sua posição: ", jogador);
-      scanf("%d", &pos);
+      while (scanf("%d", &pos) != 1)
+      {
+        printf("Digite apenas números de 1 a 9. Tente novamente!");
+        while (getchar() != '\n');
+        printf("\nÉ a vez do jogador %c, digite sua posição: ", jogador);
+      }
 
       // Colocar posições e verificação de posição já preenchida
       if (pos < 1 || pos > 9) {
