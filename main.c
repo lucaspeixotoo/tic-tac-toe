@@ -3,7 +3,7 @@
 #define JOGADOR_X 'X'
 #define JOGADOR_O 'O'
 #define EMPATE 'E'
-#define VAZIO '_'
+#define VAZIO '-'
 
 #define LINHAS 3
 #define COLUNAS 3
@@ -20,215 +20,145 @@
 int main()
 {
   // Variáveis
-  int l;
-  int c;
-  int pos;
+  int l, c, pos;
   int contador = 0;
+  int placarX = 0;
+  int placarO = 0;
+  int empate = 0;
   char tabela[LINHAS][COLUNAS];
-  char jogador = JOGADOR_X;
-  char ganhador = EMPATE;
-  char escolha;
+  char jogador, ganhador, escolha;
 
   // Reiniciar variáveis no reinicio do jogo
-  do
-  {
-    contador = 0;
+  do {
     jogador = JOGADOR_X;
     ganhador = EMPATE;
 
-    for (l = 0; l < LINHAS; l++)
-    {
-      for (c = 0; c < COLUNAS; c++)
+    for (l = 0; l < LINHAS; l++) {
+      for (c = 0; c < COLUNAS; c++) {
         tabela[l][c] = VAZIO;
+      }
     }
 
     printf("\nO jogo começou!\n");
 
-    while (1)
-    {
-      // Imprimir a tabela
-      printf("\n");
-      for (l = 0; l < LINHAS; l++)
-      {
-        for (c = 0; c < COLUNAS; c++)
-        {
-          printf("%c ", tabela[l][c]);
+    while (1) {
+
+      // Imprimir a tabela e o placar
+      printf("\n===== PLACAR =====\n");
+      printf("Jogador X: %d\n", placarX);
+      printf("Jogador O: %d\n", placarO);
+      printf("Empates  : %d\n", empate);
+      printf("==================\n\n");
+
+      for (l = 0; l < LINHAS; l++) {
+        for (c = 0; c < COLUNAS; c++) {
+          printf("%c \t", tabela[l][c]);
         }
-        printf("\n");
+        printf("\n\n");
       }
-      printf("\nAgora é a vez do jogador %c, digite sua posição: ", jogador);
+
+      printf("\nÉ a vez do jogador %c, digite sua posição: ", jogador);
       scanf("%d", &pos);
 
       // Colocar posições e verificação de posição já preenchida
-      if (pos < 1 || pos > 9)
-      {
+      if (pos < 1 || pos > 9) {
         printf("Posição invalida, tente novamente.\n");
         continue;
       }
 
-      if (pos >= 1 && pos <= 3)
-      {
-        if (tabela[0][pos - 1] != VAZIO)
-        {
-          printf("Posição preenchida, tente novamente.\n");
-          continue;
-        }
-        tabela[0][pos - 1] = jogador;
-      }
-      else if (pos >= 4 && pos <= 6)
-      {
-        if (tabela[1][pos - 4] != VAZIO)
-        {
-          printf("Posição preenchida, tente novamente.\n");
-          continue;
-        }
-        tabela[1][pos - 4] = jogador;
-      }
-      else if (pos >= 7 && pos <= 9)
-      {
-        if (tabela[2][pos - 7] != VAZIO)
-        {
-          printf("Posição preenchida, tente novamente.\n");
-          continue;
-        }
-        tabela[2][pos - 7] = jogador;
+      int linha = (pos - 1) / 3; 
+      int coluna = (pos - 1) % 3; 
+      
+      if (tabela[linha][coluna] != VAZIO) { 
+        printf("Posição preenchida, tente novamente.\n"); 
+        continue; 
       }
 
-      // Condições para vitória do JOGADOR_X
+      tabela[linha][coluna] = jogador;
 
-      for (l = 0; l < LINHAS; l += 1)
-      {
-        if (tabela[l][0] == JOGADOR_X && tabela[l][1] == JOGADOR_X && tabela[l][2] == JOGADOR_X)
-        {
-          ganhador = JOGADOR_X;
-          break;
+      // Condições para vitória de cada jogador
+
+      for (l = 0; l < LINHAS; l += 1) {
+        if (tabela[l][0] == jogador && tabela[l][1] == jogador && tabela[l][2] == jogador) {
+          ganhador = jogador;
         }
       }
 
-      for (c = 0; c < COLUNAS; c += 1)
-      {
-        if (tabela[0][c] == JOGADOR_X && tabela[1][c] == JOGADOR_X && tabela[2][c] == JOGADOR_X)
-        {
-          ganhador = JOGADOR_X;
-          break;
+      for (c = 0; c < COLUNAS; c += 1) {
+        if (tabela[0][c] == jogador && tabela[1][c] == jogador && tabela[2][c] == jogador) {
+          ganhador = jogador;
         }
       }
 
-      if (tabela[0][0] == JOGADOR_X && tabela[1][1] == JOGADOR_X && tabela[2][2] == JOGADOR_X)
-      {
-        ganhador = JOGADOR_X;
-      }
-      else if (tabela[0][2] == JOGADOR_X && tabela[1][1] == JOGADOR_X && tabela[2][0] == JOGADOR_X)
-      {
-        ganhador = JOGADOR_X;
+      if (tabela[0][0] == jogador && tabela[1][1] == jogador && tabela[2][2] == jogador) {
+        ganhador = jogador;
+      } else if (tabela[0][2] == jogador && tabela[1][1] == jogador && tabela[2][0] == jogador) {
+        ganhador = jogador;
       }
 
-      // Condições para vitória do JOGADOR_O
-
-      for (l = 0; l < LINHAS; l += 1)
-      {
-        if (tabela[l][0] == JOGADOR_O && tabela[l][1] == JOGADOR_O && tabela[l][2] == JOGADOR_O)
-        {
-          ganhador = JOGADOR_O;
-          break;
-        }
-      }
-
-      for (c = 0; c < COLUNAS; c += 1)
-      {
-        if (tabela[0][c] == JOGADOR_O && tabela[1][c] == JOGADOR_O && tabela[2][c] == JOGADOR_O)
-        {
-          ganhador = JOGADOR_O;
-          break;
-        }
-      }
-
-      if (tabela[0][0] == JOGADOR_O && tabela[1][1] == JOGADOR_O && tabela[2][2] == JOGADOR_O)
-      {
-        ganhador = JOGADOR_O;
-      }
-      else if (tabela[0][2] == JOGADOR_O && tabela[1][1] == JOGADOR_O && tabela[2][0] == JOGADOR_O)
-      {
-        ganhador = JOGADOR_O;
-      }
-
-      // Condição para garantir que o jogo rode até o final
-      if (ganhador != EMPATE)
-      {
+      if (ganhador != EMPATE) {
         break;
       }
 
-      // Condição de empate
-      int cheio = 1;
-      for (l = 0; l < LINHAS; l++)
-      {
-        for (c = 0; c < COLUNAS; c++)
-        {
-          if (tabela[l][c] == VAZIO)
-          {
+      // Verificar empate 
+      int cheio = 1; 
+      for (l = 0; l < LINHAS; l++) {
+        for (c = 0; c < COLUNAS; c++) {
+          if (tabela[l][c] == VAZIO) {
             cheio = 0;
-            break;
           }
         }
       }
-      if (cheio && ganhador == EMPATE)
-      {
+          
+      if (cheio) {
         break;
       }
-
-      // Contador para verificar a ordem dos jogadores
-      contador += 1;
-      if (contador % 2 == 0)
-      {
-        jogador = JOGADOR_X;
-      }
-      else
-      {
-        jogador = JOGADOR_O;
-      }
+      
+      jogador = (jogador == JOGADOR_X ? JOGADOR_O : JOGADOR_X); 
     }
 
-    // Imprimir texto de vencedor e empate após o fim do jogo
-    if (ganhador != EMPATE)
-    {
-      printf("\n-----------------------------------------------\n");
-      printf("---O jogo terminou! O vencedor é o Jogador %c!---", ganhador);
-      printf("\n-----------------------------------------------\n");
-    }
-    else
-    {
-      printf("\n-----------------------------------------------\n");
-      printf("--------------- O jogo empatou! ----------------");
-      printf("\n-----------------------------------------------\n\n");
-    }
+      // Resultado final
+      if (ganhador == JOGADOR_X) {
+        placarX++;
+        printf("\n-----------------------------------------------\n");
+        printf("---O jogo terminou! O vencedor é o Jogador %c!---", ganhador);
+        printf("\n-----------------------------------------------\n");
+      } else if (ganhador == JOGADOR_O) {
+        placarO++;
+        printf("\n-----------------------------------------------\n");
+        printf("---O jogo terminou! O vencedor é o Jogador %c!---", ganhador);
+        printf("\n-----------------------------------------------\n");
+      } else {
+        empate++;
+        printf("\n-----------------------------------------------\n");
+        printf("--------------- O jogo empatou! ----------------");
+        printf("\n-----------------------------------------------\n\n");
+      }
 
     // Imprimir tabela após o fim do jogo
-    for (l = 0; l < LINHAS; l++)
-    {
-      for (c = 0; c < COLUNAS; c++)
-      {
-        printf("%c ", tabela[l][c]);
+    for (l = 0; l < LINHAS; l++) {
+      for (c = 0; c < COLUNAS; c++) {
+        printf("%c \t", tabela[l][c]);
       }
-      printf("\n");
+      printf("\n\n");
     }
 
     // Opção de reinicio por escolha do usuário
-    do
-    {
+    do {
       printf("Você deseja jogar novamente? (S/N)\n");
       scanf(" %c", &escolha);
-      if (escolha != 'S' && escolha != 's' && escolha != 'N' && escolha != 'n')
-      {
+
+      if (escolha != 'S' && escolha != 's' && escolha != 'N' && escolha != 'n') {
         printf("Opção invalida, digite novamente!\n");
       }
     } 
     while (escolha != 'S' && escolha != 's' && escolha != 'N' && escolha != 'n');
   } while (escolha == 'S' || escolha == 's');
-  
+
   // Mensagem final.
   if (escolha == 'N' || escolha == 'n')
   {
-    printf("\nObrigado! Bom jogo");
+    printf("\nObrigado! Bom jogo\n");
   }
   return 0;
 }
